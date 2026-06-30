@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Razorpay Test</title>
+  </head>
+  <body>
+    <button id="rzp-button1">Pay ₹500</button>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <script>
+      var options = {
+        key: "rzp_test_T7LbrOQ3g8EMQ2",
+
+        amount: 50000,
+
+        currency: "INR",
+
+        name: "Voyage",
+
+        description: "Travel Package Payment",
+
+        order_id: "order_T7PSD985RFfE8v",
+
+        image: "https://razorpay.com/assets/razorpay-logo.svg",
+
+        prefill: {
+          name: "Roshan",
+          email: "roshan@example.com",
+          contact: "9999999999",
+        },
+
+        theme: {
+          color: "#3399cc",
+        },
+
+        config: {
+          display: {
+            blocks: {
+              upi: {
+                name: "UPI",
+                instruments: [
+                  {
+                    method: "upi",
+                  },
+                ],
+              },
+            },
+
+            sequence: ["block.upi"],
+
+            preferences: {
+              show_default_blocks: true,
+            },
+          },
+        },
+
+        handler: function (response) {
+          console.log(response);
+
+          console.log("Payment ID : " + response.razorpay_payment_id);
+
+          console.log("Order ID : " + response.razorpay_order_id);
+
+          console.log("Signature : " + response.razorpay_signature);
+        },
+
+        modal: {
+          ondismiss: function () {
+            alert("Payment Cancelled");
+          },
+        },
+      };
+
+      var rzp = new Razorpay(options);
+
+      document.getElementById("rzp-button1").onclick = function (e) {
+        rzp.open();
+
+        e.preventDefault();
+      };
+    </script>
+  </body>
+</html>
